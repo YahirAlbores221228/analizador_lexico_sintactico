@@ -19,6 +19,8 @@ tokens = (
     'LLAVE_ABIERTA',
     'LLAVE_CERRADA',
     'FOR',
+    'SYSTEM',
+    'OUT',
     'PRINTLN',
     'DOT',
     'LT',  # Menor que
@@ -28,6 +30,13 @@ tokens = (
     'EQ',  # Igual que
     'NE'   # Diferente de
 )
+
+reserved = {
+    'for': 'FOR',
+    'println': 'PRINTLN',
+    'system': 'SYSTEM',
+    'out': 'OUT'
+}
 
 t_PLUS = r'\+'
 t_MINUS = r'-'
@@ -53,10 +62,7 @@ t_ignore = ' \t'
 
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    if t.value == 'for':
-        t.type = 'FOR'
-    elif t.value == 'println':
-        t.type = 'PRINTLN'
+    t.type = reserved.get(t.value, 'IDENTIFIER')
     return t
 
 def t_NUMBER(t):
@@ -86,12 +92,8 @@ def p_statement_for(p):
     p[0] = ('for', p[3], p[5], p[7], p[10])
 
 def p_declaration(p):
-    '''declaration : IDENTIFIER IDENTIFIER EQUALS expression
-                   | IDENTIFIER EQUALS expression'''
-    if len(p) == 5:
-        p[0] = ('declaration', p[1], p[2], p[3], p[4])
-    else:
-        p[0] = ('declaration', p[1], p[2], p[3])
+    '''declaration : IDENTIFIER EQUALS expression'''
+    p[0] = ('declaration', p[1], p[2], p[3])
 
 def p_condition(p):
     '''condition : expression comparison_op expression'''
@@ -108,12 +110,8 @@ def p_comparison_op(p):
 
 def p_increment(p):
     '''increment : IDENTIFIER PLUS PLUS
-                 | IDENTIFIER MINUS MINUS
-                 | IDENTIFIER'''
-    if len(p) == 4:
-        p[0] = ('increment', p[1], p[2] + p[3])
-    else:
-        p[0] = ('increment', p[1])
+                 | IDENTIFIER MINUS MINUS'''
+    p[0] = ('increment', p[1], p[2] + p[3])
 
 def p_statements(p):
     '''statements : statement
@@ -121,7 +119,7 @@ def p_statements(p):
     p[0] = ('statements', p[1], p[2] if len(p) > 2 else None)
 
 def p_statement_print(p):
-    '''statement : IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON'''
+    '''statement : SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON'''
     p[0] = ('println', p[1], p[3], p[5], p[7])
 
 def p_expression_binop(p):
@@ -149,7 +147,7 @@ def p_error(p):
         print(error_message)
         syntax_errors.append(error_message)
     else:
-        error_message = "Estrutura incorrecta"
+        error_message = "Syntax error at EOF"
         print(error_message)
         syntax_errors.append(error_message)
 

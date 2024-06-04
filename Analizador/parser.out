@@ -10,66 +10,66 @@ Rule 0     S' -> program
 Rule 1     program -> statement
 Rule 2     program -> statement program
 Rule 3     statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-Rule 4     declaration -> IDENTIFIER IDENTIFIER EQUALS expression
-Rule 5     declaration -> IDENTIFIER EQUALS expression
-Rule 6     condition -> expression comparison_op expression
-Rule 7     comparison_op -> LT
-Rule 8     comparison_op -> LE
-Rule 9     comparison_op -> GT
-Rule 10    comparison_op -> GE
-Rule 11    comparison_op -> EQ
-Rule 12    comparison_op -> NE
-Rule 13    increment -> IDENTIFIER PLUS PLUS
-Rule 14    increment -> IDENTIFIER MINUS MINUS
-Rule 15    increment -> IDENTIFIER
-Rule 16    statements -> statement
-Rule 17    statements -> statement statements
-Rule 18    statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
-Rule 19    expression -> expression PLUS term
-Rule 20    expression -> expression MINUS term
-Rule 21    expression -> expression TIMES term
-Rule 22    expression -> expression DIVIDE term
-Rule 23    expression -> term
-Rule 24    term -> NUMBER
-Rule 25    term -> IDENTIFIER
+Rule 4     declaration -> IDENTIFIER EQUALS expression
+Rule 5     condition -> expression comparison_op expression
+Rule 6     comparison_op -> LT
+Rule 7     comparison_op -> LE
+Rule 8     comparison_op -> GT
+Rule 9     comparison_op -> GE
+Rule 10    comparison_op -> EQ
+Rule 11    comparison_op -> NE
+Rule 12    increment -> IDENTIFIER PLUS PLUS
+Rule 13    increment -> IDENTIFIER MINUS MINUS
+Rule 14    statements -> statement
+Rule 15    statements -> statement statements
+Rule 16    statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+Rule 17    expression -> expression PLUS term
+Rule 18    expression -> expression MINUS term
+Rule 19    expression -> expression TIMES term
+Rule 20    expression -> expression DIVIDE term
+Rule 21    expression -> term
+Rule 22    term -> NUMBER
+Rule 23    term -> IDENTIFIER
 
 Terminals, with rules where they appear
 
 COMMA                : 
-DIVIDE               : 22
-DOT                  : 18 18
-EQ                   : 11
-EQUALS               : 4 5
+DIVIDE               : 20
+DOT                  : 16 16
+EQ                   : 10
+EQUALS               : 4
 FOR                  : 3
-GE                   : 10
-GT                   : 9
-IDENTIFIER           : 4 4 5 13 14 15 18 18 25
-LE                   : 8
+GE                   : 9
+GT                   : 8
+IDENTIFIER           : 4 12 13 23
+LE                   : 7
 LLAVE_ABIERTA        : 3
 LLAVE_CERRADA        : 3
-LPAREN               : 3 18
-LT                   : 7
-MINUS                : 14 14 20
-NE                   : 12
-NUMBER               : 24
-PLUS                 : 13 13 19
-PRINTLN              : 18
-RPAREN               : 3 18
-SEMICOLON            : 3 3 18
-TIMES                : 21
+LPAREN               : 3 16
+LT                   : 6
+MINUS                : 13 13 18
+NE                   : 11
+NUMBER               : 22
+OUT                  : 16
+PLUS                 : 12 12 17
+PRINTLN              : 16
+RPAREN               : 3 16
+SEMICOLON            : 3 3 16
+SYSTEM               : 16
+TIMES                : 19
 error                : 
 
 Nonterminals, with rules where they appear
 
-comparison_op        : 6
+comparison_op        : 5
 condition            : 3
 declaration          : 3
-expression           : 4 5 6 6 18 19 20 21 22
+expression           : 4 5 5 16 17 18 19 20
 increment            : 3
 program              : 2 0
-statement            : 1 2 16 17
-statements           : 3 17
-term                 : 19 20 21 22 23
+statement            : 1 2 14 15
+statements           : 3 15
+term                 : 17 18 19 20 21
 
 Parsing method: LALR
 
@@ -79,10 +79,10 @@ state 0
     (1) program -> . statement
     (2) program -> . statement program
     (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (18) statement -> . IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> . SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
     FOR             shift and go to state 3
-    IDENTIFIER      shift and go to state 4
+    SYSTEM          shift and go to state 4
 
     program                        shift and go to state 1
     statement                      shift and go to state 2
@@ -100,11 +100,11 @@ state 2
     (1) program -> . statement
     (2) program -> . statement program
     (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (18) statement -> . IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> . SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
     $end            reduce using rule 1 (program -> statement .)
     FOR             shift and go to state 3
-    IDENTIFIER      shift and go to state 4
+    SYSTEM          shift and go to state 4
 
     statement                      shift and go to state 2
     program                        shift and go to state 5
@@ -118,7 +118,7 @@ state 3
 
 state 4
 
-    (18) statement -> IDENTIFIER . DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> SYSTEM . DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
     DOT             shift and go to state 7
 
@@ -133,8 +133,7 @@ state 5
 state 6
 
     (3) statement -> FOR LPAREN . declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (4) declaration -> . IDENTIFIER IDENTIFIER EQUALS expression
-    (5) declaration -> . IDENTIFIER EQUALS expression
+    (4) declaration -> . IDENTIFIER EQUALS expression
 
     IDENTIFIER      shift and go to state 9
 
@@ -142,9 +141,9 @@ state 6
 
 state 7
 
-    (18) statement -> IDENTIFIER DOT . IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> SYSTEM DOT . OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
-    IDENTIFIER      shift and go to state 10
+    OUT             shift and go to state 10
 
 
 state 8
@@ -156,571 +155,527 @@ state 8
 
 state 9
 
-    (4) declaration -> IDENTIFIER . IDENTIFIER EQUALS expression
-    (5) declaration -> IDENTIFIER . EQUALS expression
+    (4) declaration -> IDENTIFIER . EQUALS expression
 
-    IDENTIFIER      shift and go to state 12
-    EQUALS          shift and go to state 13
+    EQUALS          shift and go to state 12
 
 
 state 10
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER . DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> SYSTEM DOT OUT . DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
-    DOT             shift and go to state 14
+    DOT             shift and go to state 13
 
 
 state 11
 
     (3) statement -> FOR LPAREN declaration SEMICOLON . condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (6) condition -> . expression comparison_op expression
-    (19) expression -> . expression PLUS term
-    (20) expression -> . expression MINUS term
-    (21) expression -> . expression TIMES term
-    (22) expression -> . expression DIVIDE term
-    (23) expression -> . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (5) condition -> . expression comparison_op expression
+    (17) expression -> . expression PLUS term
+    (18) expression -> . expression MINUS term
+    (19) expression -> . expression TIMES term
+    (20) expression -> . expression DIVIDE term
+    (21) expression -> . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
-    condition                      shift and go to state 15
-    expression                     shift and go to state 16
-    term                           shift and go to state 17
+    condition                      shift and go to state 14
+    expression                     shift and go to state 15
+    term                           shift and go to state 16
 
 state 12
 
-    (4) declaration -> IDENTIFIER IDENTIFIER . EQUALS expression
+    (4) declaration -> IDENTIFIER EQUALS . expression
+    (17) expression -> . expression PLUS term
+    (18) expression -> . expression MINUS term
+    (19) expression -> . expression TIMES term
+    (20) expression -> . expression DIVIDE term
+    (21) expression -> . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    EQUALS          shift and go to state 20
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
+    expression                     shift and go to state 19
+    term                           shift and go to state 16
 
 state 13
 
-    (5) declaration -> IDENTIFIER EQUALS . expression
-    (19) expression -> . expression PLUS term
-    (20) expression -> . expression MINUS term
-    (21) expression -> . expression TIMES term
-    (22) expression -> . expression DIVIDE term
-    (23) expression -> . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (16) statement -> SYSTEM DOT OUT DOT . PRINTLN LPAREN expression RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    PRINTLN         shift and go to state 20
 
-    expression                     shift and go to state 21
-    term                           shift and go to state 17
 
 state 14
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT . PRINTLN LPAREN expression RPAREN SEMICOLON
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition . SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
 
-    PRINTLN         shift and go to state 22
+    SEMICOLON       shift and go to state 21
 
 
 state 15
 
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition . SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
+    (5) condition -> expression . comparison_op expression
+    (17) expression -> expression . PLUS term
+    (18) expression -> expression . MINUS term
+    (19) expression -> expression . TIMES term
+    (20) expression -> expression . DIVIDE term
+    (6) comparison_op -> . LT
+    (7) comparison_op -> . LE
+    (8) comparison_op -> . GT
+    (9) comparison_op -> . GE
+    (10) comparison_op -> . EQ
+    (11) comparison_op -> . NE
 
-    SEMICOLON       shift and go to state 23
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
+    LT              shift and go to state 27
+    LE              shift and go to state 28
+    GT              shift and go to state 29
+    GE              shift and go to state 30
+    EQ              shift and go to state 31
+    NE              shift and go to state 32
 
+    comparison_op                  shift and go to state 22
 
 state 16
 
-    (6) condition -> expression . comparison_op expression
-    (19) expression -> expression . PLUS term
-    (20) expression -> expression . MINUS term
-    (21) expression -> expression . TIMES term
-    (22) expression -> expression . DIVIDE term
-    (7) comparison_op -> . LT
-    (8) comparison_op -> . LE
-    (9) comparison_op -> . GT
-    (10) comparison_op -> . GE
-    (11) comparison_op -> . EQ
-    (12) comparison_op -> . NE
+    (21) expression -> term .
 
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    TIMES           shift and go to state 27
-    DIVIDE          shift and go to state 28
-    LT              shift and go to state 29
-    LE              shift and go to state 30
-    GT              shift and go to state 31
-    GE              shift and go to state 32
-    EQ              shift and go to state 33
-    NE              shift and go to state 34
+    PLUS            reduce using rule 21 (expression -> term .)
+    MINUS           reduce using rule 21 (expression -> term .)
+    TIMES           reduce using rule 21 (expression -> term .)
+    DIVIDE          reduce using rule 21 (expression -> term .)
+    LT              reduce using rule 21 (expression -> term .)
+    LE              reduce using rule 21 (expression -> term .)
+    GT              reduce using rule 21 (expression -> term .)
+    GE              reduce using rule 21 (expression -> term .)
+    EQ              reduce using rule 21 (expression -> term .)
+    NE              reduce using rule 21 (expression -> term .)
+    SEMICOLON       reduce using rule 21 (expression -> term .)
+    RPAREN          reduce using rule 21 (expression -> term .)
 
-    comparison_op                  shift and go to state 24
 
 state 17
 
-    (23) expression -> term .
+    (22) term -> NUMBER .
 
-    PLUS            reduce using rule 23 (expression -> term .)
-    MINUS           reduce using rule 23 (expression -> term .)
-    TIMES           reduce using rule 23 (expression -> term .)
-    DIVIDE          reduce using rule 23 (expression -> term .)
-    LT              reduce using rule 23 (expression -> term .)
-    LE              reduce using rule 23 (expression -> term .)
-    GT              reduce using rule 23 (expression -> term .)
-    GE              reduce using rule 23 (expression -> term .)
-    EQ              reduce using rule 23 (expression -> term .)
-    NE              reduce using rule 23 (expression -> term .)
-    SEMICOLON       reduce using rule 23 (expression -> term .)
-    RPAREN          reduce using rule 23 (expression -> term .)
+    PLUS            reduce using rule 22 (term -> NUMBER .)
+    MINUS           reduce using rule 22 (term -> NUMBER .)
+    TIMES           reduce using rule 22 (term -> NUMBER .)
+    DIVIDE          reduce using rule 22 (term -> NUMBER .)
+    LT              reduce using rule 22 (term -> NUMBER .)
+    LE              reduce using rule 22 (term -> NUMBER .)
+    GT              reduce using rule 22 (term -> NUMBER .)
+    GE              reduce using rule 22 (term -> NUMBER .)
+    EQ              reduce using rule 22 (term -> NUMBER .)
+    NE              reduce using rule 22 (term -> NUMBER .)
+    SEMICOLON       reduce using rule 22 (term -> NUMBER .)
+    RPAREN          reduce using rule 22 (term -> NUMBER .)
 
 
 state 18
 
-    (24) term -> NUMBER .
+    (23) term -> IDENTIFIER .
 
-    PLUS            reduce using rule 24 (term -> NUMBER .)
-    MINUS           reduce using rule 24 (term -> NUMBER .)
-    TIMES           reduce using rule 24 (term -> NUMBER .)
-    DIVIDE          reduce using rule 24 (term -> NUMBER .)
-    LT              reduce using rule 24 (term -> NUMBER .)
-    LE              reduce using rule 24 (term -> NUMBER .)
-    GT              reduce using rule 24 (term -> NUMBER .)
-    GE              reduce using rule 24 (term -> NUMBER .)
-    EQ              reduce using rule 24 (term -> NUMBER .)
-    NE              reduce using rule 24 (term -> NUMBER .)
-    SEMICOLON       reduce using rule 24 (term -> NUMBER .)
-    RPAREN          reduce using rule 24 (term -> NUMBER .)
+    PLUS            reduce using rule 23 (term -> IDENTIFIER .)
+    MINUS           reduce using rule 23 (term -> IDENTIFIER .)
+    TIMES           reduce using rule 23 (term -> IDENTIFIER .)
+    DIVIDE          reduce using rule 23 (term -> IDENTIFIER .)
+    LT              reduce using rule 23 (term -> IDENTIFIER .)
+    LE              reduce using rule 23 (term -> IDENTIFIER .)
+    GT              reduce using rule 23 (term -> IDENTIFIER .)
+    GE              reduce using rule 23 (term -> IDENTIFIER .)
+    EQ              reduce using rule 23 (term -> IDENTIFIER .)
+    NE              reduce using rule 23 (term -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 23 (term -> IDENTIFIER .)
+    RPAREN          reduce using rule 23 (term -> IDENTIFIER .)
 
 
 state 19
 
-    (25) term -> IDENTIFIER .
+    (4) declaration -> IDENTIFIER EQUALS expression .
+    (17) expression -> expression . PLUS term
+    (18) expression -> expression . MINUS term
+    (19) expression -> expression . TIMES term
+    (20) expression -> expression . DIVIDE term
 
-    PLUS            reduce using rule 25 (term -> IDENTIFIER .)
-    MINUS           reduce using rule 25 (term -> IDENTIFIER .)
-    TIMES           reduce using rule 25 (term -> IDENTIFIER .)
-    DIVIDE          reduce using rule 25 (term -> IDENTIFIER .)
-    LT              reduce using rule 25 (term -> IDENTIFIER .)
-    LE              reduce using rule 25 (term -> IDENTIFIER .)
-    GT              reduce using rule 25 (term -> IDENTIFIER .)
-    GE              reduce using rule 25 (term -> IDENTIFIER .)
-    EQ              reduce using rule 25 (term -> IDENTIFIER .)
-    NE              reduce using rule 25 (term -> IDENTIFIER .)
-    SEMICOLON       reduce using rule 25 (term -> IDENTIFIER .)
-    RPAREN          reduce using rule 25 (term -> IDENTIFIER .)
+    SEMICOLON       reduce using rule 4 (declaration -> IDENTIFIER EQUALS expression .)
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
 
 
 state 20
 
-    (4) declaration -> IDENTIFIER IDENTIFIER EQUALS . expression
-    (19) expression -> . expression PLUS term
-    (20) expression -> . expression MINUS term
-    (21) expression -> . expression TIMES term
-    (22) expression -> . expression DIVIDE term
-    (23) expression -> . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (16) statement -> SYSTEM DOT OUT DOT PRINTLN . LPAREN expression RPAREN SEMICOLON
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    LPAREN          shift and go to state 33
 
-    expression                     shift and go to state 35
-    term                           shift and go to state 17
 
 state 21
 
-    (5) declaration -> IDENTIFIER EQUALS expression .
-    (19) expression -> expression . PLUS term
-    (20) expression -> expression . MINUS term
-    (21) expression -> expression . TIMES term
-    (22) expression -> expression . DIVIDE term
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON . increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
+    (12) increment -> . IDENTIFIER PLUS PLUS
+    (13) increment -> . IDENTIFIER MINUS MINUS
 
-    SEMICOLON       reduce using rule 5 (declaration -> IDENTIFIER EQUALS expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    TIMES           shift and go to state 27
-    DIVIDE          shift and go to state 28
+    IDENTIFIER      shift and go to state 35
 
+    increment                      shift and go to state 34
 
 state 22
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN . LPAREN expression RPAREN SEMICOLON
+    (5) condition -> expression comparison_op . expression
+    (17) expression -> . expression PLUS term
+    (18) expression -> . expression MINUS term
+    (19) expression -> . expression TIMES term
+    (20) expression -> . expression DIVIDE term
+    (21) expression -> . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    LPAREN          shift and go to state 36
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
+    expression                     shift and go to state 36
+    term                           shift and go to state 16
 
 state 23
 
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON . increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (13) increment -> . IDENTIFIER PLUS PLUS
-    (14) increment -> . IDENTIFIER MINUS MINUS
-    (15) increment -> . IDENTIFIER
+    (17) expression -> expression PLUS . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    IDENTIFIER      shift and go to state 38
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
-    increment                      shift and go to state 37
+    term                           shift and go to state 37
 
 state 24
 
-    (6) condition -> expression comparison_op . expression
-    (19) expression -> . expression PLUS term
-    (20) expression -> . expression MINUS term
-    (21) expression -> . expression TIMES term
-    (22) expression -> . expression DIVIDE term
-    (23) expression -> . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (18) expression -> expression MINUS . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
-    expression                     shift and go to state 39
-    term                           shift and go to state 17
+    term                           shift and go to state 38
 
 state 25
 
-    (19) expression -> expression PLUS . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (19) expression -> expression TIMES . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
-    term                           shift and go to state 40
+    term                           shift and go to state 39
 
 state 26
 
-    (20) expression -> expression MINUS . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (20) expression -> expression DIVIDE . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
-    term                           shift and go to state 41
+    term                           shift and go to state 40
 
 state 27
 
-    (21) expression -> expression TIMES . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (6) comparison_op -> LT .
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          reduce using rule 6 (comparison_op -> LT .)
+    IDENTIFIER      reduce using rule 6 (comparison_op -> LT .)
 
-    term                           shift and go to state 42
 
 state 28
 
-    (22) expression -> expression DIVIDE . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (7) comparison_op -> LE .
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    NUMBER          reduce using rule 7 (comparison_op -> LE .)
+    IDENTIFIER      reduce using rule 7 (comparison_op -> LE .)
 
-    term                           shift and go to state 43
 
 state 29
 
-    (7) comparison_op -> LT .
+    (8) comparison_op -> GT .
 
-    NUMBER          reduce using rule 7 (comparison_op -> LT .)
-    IDENTIFIER      reduce using rule 7 (comparison_op -> LT .)
+    NUMBER          reduce using rule 8 (comparison_op -> GT .)
+    IDENTIFIER      reduce using rule 8 (comparison_op -> GT .)
 
 
 state 30
 
-    (8) comparison_op -> LE .
+    (9) comparison_op -> GE .
 
-    NUMBER          reduce using rule 8 (comparison_op -> LE .)
-    IDENTIFIER      reduce using rule 8 (comparison_op -> LE .)
+    NUMBER          reduce using rule 9 (comparison_op -> GE .)
+    IDENTIFIER      reduce using rule 9 (comparison_op -> GE .)
 
 
 state 31
 
-    (9) comparison_op -> GT .
+    (10) comparison_op -> EQ .
 
-    NUMBER          reduce using rule 9 (comparison_op -> GT .)
-    IDENTIFIER      reduce using rule 9 (comparison_op -> GT .)
+    NUMBER          reduce using rule 10 (comparison_op -> EQ .)
+    IDENTIFIER      reduce using rule 10 (comparison_op -> EQ .)
 
 
 state 32
 
-    (10) comparison_op -> GE .
+    (11) comparison_op -> NE .
 
-    NUMBER          reduce using rule 10 (comparison_op -> GE .)
-    IDENTIFIER      reduce using rule 10 (comparison_op -> GE .)
+    NUMBER          reduce using rule 11 (comparison_op -> NE .)
+    IDENTIFIER      reduce using rule 11 (comparison_op -> NE .)
 
 
 state 33
 
-    (11) comparison_op -> EQ .
+    (16) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN . expression RPAREN SEMICOLON
+    (17) expression -> . expression PLUS term
+    (18) expression -> . expression MINUS term
+    (19) expression -> . expression TIMES term
+    (20) expression -> . expression DIVIDE term
+    (21) expression -> . term
+    (22) term -> . NUMBER
+    (23) term -> . IDENTIFIER
 
-    NUMBER          reduce using rule 11 (comparison_op -> EQ .)
-    IDENTIFIER      reduce using rule 11 (comparison_op -> EQ .)
+    NUMBER          shift and go to state 17
+    IDENTIFIER      shift and go to state 18
 
+    expression                     shift and go to state 41
+    term                           shift and go to state 16
 
 state 34
 
-    (12) comparison_op -> NE .
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment . RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
 
-    NUMBER          reduce using rule 12 (comparison_op -> NE .)
-    IDENTIFIER      reduce using rule 12 (comparison_op -> NE .)
+    RPAREN          shift and go to state 42
 
 
 state 35
 
-    (4) declaration -> IDENTIFIER IDENTIFIER EQUALS expression .
-    (19) expression -> expression . PLUS term
-    (20) expression -> expression . MINUS term
-    (21) expression -> expression . TIMES term
-    (22) expression -> expression . DIVIDE term
+    (12) increment -> IDENTIFIER . PLUS PLUS
+    (13) increment -> IDENTIFIER . MINUS MINUS
 
-    SEMICOLON       reduce using rule 4 (declaration -> IDENTIFIER IDENTIFIER EQUALS expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    TIMES           shift and go to state 27
-    DIVIDE          shift and go to state 28
+    PLUS            shift and go to state 43
+    MINUS           shift and go to state 44
 
 
 state 36
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN . expression RPAREN SEMICOLON
-    (19) expression -> . expression PLUS term
-    (20) expression -> . expression MINUS term
-    (21) expression -> . expression TIMES term
-    (22) expression -> . expression DIVIDE term
-    (23) expression -> . term
-    (24) term -> . NUMBER
-    (25) term -> . IDENTIFIER
+    (5) condition -> expression comparison_op expression .
+    (17) expression -> expression . PLUS term
+    (18) expression -> expression . MINUS term
+    (19) expression -> expression . TIMES term
+    (20) expression -> expression . DIVIDE term
 
-    NUMBER          shift and go to state 18
-    IDENTIFIER      shift and go to state 19
+    SEMICOLON       reduce using rule 5 (condition -> expression comparison_op expression .)
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
 
-    expression                     shift and go to state 44
-    term                           shift and go to state 17
 
 state 37
 
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment . RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
+    (17) expression -> expression PLUS term .
 
-    RPAREN          shift and go to state 45
+    PLUS            reduce using rule 17 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 17 (expression -> expression PLUS term .)
+    TIMES           reduce using rule 17 (expression -> expression PLUS term .)
+    DIVIDE          reduce using rule 17 (expression -> expression PLUS term .)
+    LT              reduce using rule 17 (expression -> expression PLUS term .)
+    LE              reduce using rule 17 (expression -> expression PLUS term .)
+    GT              reduce using rule 17 (expression -> expression PLUS term .)
+    GE              reduce using rule 17 (expression -> expression PLUS term .)
+    EQ              reduce using rule 17 (expression -> expression PLUS term .)
+    NE              reduce using rule 17 (expression -> expression PLUS term .)
+    SEMICOLON       reduce using rule 17 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 17 (expression -> expression PLUS term .)
 
 
 state 38
 
-    (13) increment -> IDENTIFIER . PLUS PLUS
-    (14) increment -> IDENTIFIER . MINUS MINUS
-    (15) increment -> IDENTIFIER .
+    (18) expression -> expression MINUS term .
 
-    PLUS            shift and go to state 46
-    MINUS           shift and go to state 47
-    RPAREN          reduce using rule 15 (increment -> IDENTIFIER .)
+    PLUS            reduce using rule 18 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 18 (expression -> expression MINUS term .)
+    TIMES           reduce using rule 18 (expression -> expression MINUS term .)
+    DIVIDE          reduce using rule 18 (expression -> expression MINUS term .)
+    LT              reduce using rule 18 (expression -> expression MINUS term .)
+    LE              reduce using rule 18 (expression -> expression MINUS term .)
+    GT              reduce using rule 18 (expression -> expression MINUS term .)
+    GE              reduce using rule 18 (expression -> expression MINUS term .)
+    EQ              reduce using rule 18 (expression -> expression MINUS term .)
+    NE              reduce using rule 18 (expression -> expression MINUS term .)
+    SEMICOLON       reduce using rule 18 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 18 (expression -> expression MINUS term .)
 
 
 state 39
 
-    (6) condition -> expression comparison_op expression .
-    (19) expression -> expression . PLUS term
-    (20) expression -> expression . MINUS term
-    (21) expression -> expression . TIMES term
-    (22) expression -> expression . DIVIDE term
+    (19) expression -> expression TIMES term .
 
-    SEMICOLON       reduce using rule 6 (condition -> expression comparison_op expression .)
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    TIMES           shift and go to state 27
-    DIVIDE          shift and go to state 28
+    PLUS            reduce using rule 19 (expression -> expression TIMES term .)
+    MINUS           reduce using rule 19 (expression -> expression TIMES term .)
+    TIMES           reduce using rule 19 (expression -> expression TIMES term .)
+    DIVIDE          reduce using rule 19 (expression -> expression TIMES term .)
+    LT              reduce using rule 19 (expression -> expression TIMES term .)
+    LE              reduce using rule 19 (expression -> expression TIMES term .)
+    GT              reduce using rule 19 (expression -> expression TIMES term .)
+    GE              reduce using rule 19 (expression -> expression TIMES term .)
+    EQ              reduce using rule 19 (expression -> expression TIMES term .)
+    NE              reduce using rule 19 (expression -> expression TIMES term .)
+    SEMICOLON       reduce using rule 19 (expression -> expression TIMES term .)
+    RPAREN          reduce using rule 19 (expression -> expression TIMES term .)
 
 
 state 40
 
-    (19) expression -> expression PLUS term .
+    (20) expression -> expression DIVIDE term .
 
-    PLUS            reduce using rule 19 (expression -> expression PLUS term .)
-    MINUS           reduce using rule 19 (expression -> expression PLUS term .)
-    TIMES           reduce using rule 19 (expression -> expression PLUS term .)
-    DIVIDE          reduce using rule 19 (expression -> expression PLUS term .)
-    LT              reduce using rule 19 (expression -> expression PLUS term .)
-    LE              reduce using rule 19 (expression -> expression PLUS term .)
-    GT              reduce using rule 19 (expression -> expression PLUS term .)
-    GE              reduce using rule 19 (expression -> expression PLUS term .)
-    EQ              reduce using rule 19 (expression -> expression PLUS term .)
-    NE              reduce using rule 19 (expression -> expression PLUS term .)
-    SEMICOLON       reduce using rule 19 (expression -> expression PLUS term .)
-    RPAREN          reduce using rule 19 (expression -> expression PLUS term .)
+    PLUS            reduce using rule 20 (expression -> expression DIVIDE term .)
+    MINUS           reduce using rule 20 (expression -> expression DIVIDE term .)
+    TIMES           reduce using rule 20 (expression -> expression DIVIDE term .)
+    DIVIDE          reduce using rule 20 (expression -> expression DIVIDE term .)
+    LT              reduce using rule 20 (expression -> expression DIVIDE term .)
+    LE              reduce using rule 20 (expression -> expression DIVIDE term .)
+    GT              reduce using rule 20 (expression -> expression DIVIDE term .)
+    GE              reduce using rule 20 (expression -> expression DIVIDE term .)
+    EQ              reduce using rule 20 (expression -> expression DIVIDE term .)
+    NE              reduce using rule 20 (expression -> expression DIVIDE term .)
+    SEMICOLON       reduce using rule 20 (expression -> expression DIVIDE term .)
+    RPAREN          reduce using rule 20 (expression -> expression DIVIDE term .)
 
 
 state 41
 
-    (20) expression -> expression MINUS term .
+    (16) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression . RPAREN SEMICOLON
+    (17) expression -> expression . PLUS term
+    (18) expression -> expression . MINUS term
+    (19) expression -> expression . TIMES term
+    (20) expression -> expression . DIVIDE term
 
-    PLUS            reduce using rule 20 (expression -> expression MINUS term .)
-    MINUS           reduce using rule 20 (expression -> expression MINUS term .)
-    TIMES           reduce using rule 20 (expression -> expression MINUS term .)
-    DIVIDE          reduce using rule 20 (expression -> expression MINUS term .)
-    LT              reduce using rule 20 (expression -> expression MINUS term .)
-    LE              reduce using rule 20 (expression -> expression MINUS term .)
-    GT              reduce using rule 20 (expression -> expression MINUS term .)
-    GE              reduce using rule 20 (expression -> expression MINUS term .)
-    EQ              reduce using rule 20 (expression -> expression MINUS term .)
-    NE              reduce using rule 20 (expression -> expression MINUS term .)
-    SEMICOLON       reduce using rule 20 (expression -> expression MINUS term .)
-    RPAREN          reduce using rule 20 (expression -> expression MINUS term .)
+    RPAREN          shift and go to state 45
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
 
 
 state 42
 
-    (21) expression -> expression TIMES term .
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN . LLAVE_ABIERTA statements LLAVE_CERRADA
 
-    PLUS            reduce using rule 21 (expression -> expression TIMES term .)
-    MINUS           reduce using rule 21 (expression -> expression TIMES term .)
-    TIMES           reduce using rule 21 (expression -> expression TIMES term .)
-    DIVIDE          reduce using rule 21 (expression -> expression TIMES term .)
-    LT              reduce using rule 21 (expression -> expression TIMES term .)
-    LE              reduce using rule 21 (expression -> expression TIMES term .)
-    GT              reduce using rule 21 (expression -> expression TIMES term .)
-    GE              reduce using rule 21 (expression -> expression TIMES term .)
-    EQ              reduce using rule 21 (expression -> expression TIMES term .)
-    NE              reduce using rule 21 (expression -> expression TIMES term .)
-    SEMICOLON       reduce using rule 21 (expression -> expression TIMES term .)
-    RPAREN          reduce using rule 21 (expression -> expression TIMES term .)
+    LLAVE_ABIERTA   shift and go to state 46
 
 
 state 43
 
-    (22) expression -> expression DIVIDE term .
+    (12) increment -> IDENTIFIER PLUS . PLUS
 
-    PLUS            reduce using rule 22 (expression -> expression DIVIDE term .)
-    MINUS           reduce using rule 22 (expression -> expression DIVIDE term .)
-    TIMES           reduce using rule 22 (expression -> expression DIVIDE term .)
-    DIVIDE          reduce using rule 22 (expression -> expression DIVIDE term .)
-    LT              reduce using rule 22 (expression -> expression DIVIDE term .)
-    LE              reduce using rule 22 (expression -> expression DIVIDE term .)
-    GT              reduce using rule 22 (expression -> expression DIVIDE term .)
-    GE              reduce using rule 22 (expression -> expression DIVIDE term .)
-    EQ              reduce using rule 22 (expression -> expression DIVIDE term .)
-    NE              reduce using rule 22 (expression -> expression DIVIDE term .)
-    SEMICOLON       reduce using rule 22 (expression -> expression DIVIDE term .)
-    RPAREN          reduce using rule 22 (expression -> expression DIVIDE term .)
+    PLUS            shift and go to state 47
 
 
 state 44
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression . RPAREN SEMICOLON
-    (19) expression -> expression . PLUS term
-    (20) expression -> expression . MINUS term
-    (21) expression -> expression . TIMES term
-    (22) expression -> expression . DIVIDE term
+    (13) increment -> IDENTIFIER MINUS . MINUS
 
-    RPAREN          shift and go to state 48
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    TIMES           shift and go to state 27
-    DIVIDE          shift and go to state 28
+    MINUS           shift and go to state 48
 
 
 state 45
 
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN . LLAVE_ABIERTA statements LLAVE_CERRADA
+    (16) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN . SEMICOLON
 
-    LLAVE_ABIERTA   shift and go to state 49
+    SEMICOLON       shift and go to state 49
 
 
 state 46
 
-    (13) increment -> IDENTIFIER PLUS . PLUS
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA . statements LLAVE_CERRADA
+    (14) statements -> . statement
+    (15) statements -> . statement statements
+    (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
+    (16) statement -> . SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
-    PLUS            shift and go to state 50
+    FOR             shift and go to state 3
+    SYSTEM          shift and go to state 4
 
+    statements                     shift and go to state 50
+    statement                      shift and go to state 51
 
 state 47
 
-    (14) increment -> IDENTIFIER MINUS . MINUS
+    (12) increment -> IDENTIFIER PLUS PLUS .
 
-    MINUS           shift and go to state 51
+    RPAREN          reduce using rule 12 (increment -> IDENTIFIER PLUS PLUS .)
 
 
 state 48
 
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN . SEMICOLON
+    (13) increment -> IDENTIFIER MINUS MINUS .
 
-    SEMICOLON       shift and go to state 52
+    RPAREN          reduce using rule 13 (increment -> IDENTIFIER MINUS MINUS .)
 
 
 state 49
 
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA . statements LLAVE_CERRADA
-    (16) statements -> . statement
-    (17) statements -> . statement statements
-    (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (18) statement -> . IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
+    (16) statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON .
 
-    FOR             shift and go to state 3
-    IDENTIFIER      shift and go to state 4
+    FOR             reduce using rule 16 (statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
+    SYSTEM          reduce using rule 16 (statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
+    $end            reduce using rule 16 (statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
+    LLAVE_CERRADA   reduce using rule 16 (statement -> SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
 
-    statements                     shift and go to state 53
-    statement                      shift and go to state 54
 
 state 50
 
-    (13) increment -> IDENTIFIER PLUS PLUS .
+    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements . LLAVE_CERRADA
 
-    RPAREN          reduce using rule 13 (increment -> IDENTIFIER PLUS PLUS .)
+    LLAVE_CERRADA   shift and go to state 52
 
 
 state 51
 
-    (14) increment -> IDENTIFIER MINUS MINUS .
+    (14) statements -> statement .
+    (15) statements -> statement . statements
+    (14) statements -> . statement
+    (15) statements -> . statement statements
+    (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
+    (16) statement -> . SYSTEM DOT OUT DOT PRINTLN LPAREN expression RPAREN SEMICOLON
 
-    RPAREN          reduce using rule 14 (increment -> IDENTIFIER MINUS MINUS .)
+    LLAVE_CERRADA   reduce using rule 14 (statements -> statement .)
+    FOR             shift and go to state 3
+    SYSTEM          shift and go to state 4
 
+    statement                      shift and go to state 51
+    statements                     shift and go to state 53
 
 state 52
-
-    (18) statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON .
-
-    FOR             reduce using rule 18 (statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
-    IDENTIFIER      reduce using rule 18 (statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
-    $end            reduce using rule 18 (statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
-    LLAVE_CERRADA   reduce using rule 18 (statement -> IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON .)
-
-
-state 53
-
-    (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements . LLAVE_CERRADA
-
-    LLAVE_CERRADA   shift and go to state 55
-
-
-state 54
-
-    (16) statements -> statement .
-    (17) statements -> statement . statements
-    (16) statements -> . statement
-    (17) statements -> . statement statements
-    (3) statement -> . FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA
-    (18) statement -> . IDENTIFIER DOT IDENTIFIER DOT PRINTLN LPAREN expression RPAREN SEMICOLON
-
-    LLAVE_CERRADA   reduce using rule 16 (statements -> statement .)
-    FOR             shift and go to state 3
-    IDENTIFIER      shift and go to state 4
-
-    statement                      shift and go to state 54
-    statements                     shift and go to state 56
-
-state 55
 
     (3) statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .
 
     FOR             reduce using rule 3 (statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .)
-    IDENTIFIER      reduce using rule 3 (statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .)
+    SYSTEM          reduce using rule 3 (statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .)
     $end            reduce using rule 3 (statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .)
     LLAVE_CERRADA   reduce using rule 3 (statement -> FOR LPAREN declaration SEMICOLON condition SEMICOLON increment RPAREN LLAVE_ABIERTA statements LLAVE_CERRADA .)
 
 
-state 56
+state 53
 
-    (17) statements -> statement statements .
+    (15) statements -> statement statements .
 
-    LLAVE_CERRADA   reduce using rule 17 (statements -> statement statements .)
+    LLAVE_CERRADA   reduce using rule 15 (statements -> statement statements .)
 
